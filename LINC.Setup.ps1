@@ -3,7 +3,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$ModuleRoot = '.\Modules' #(Join-Path $PSScriptRoot 'Modules')
+    [string]$ModuleRoot = 'C:\Windows\Temp\Modules' #(Join-Path $PSScriptRoot 'Modules')
 )
 
 Set-StrictMode -Version Latest
@@ -45,5 +45,5 @@ catch {
     exit 1
 }
 finally {
-    Read-Host -Prompt "Press ENTER to exit"
+    $NULL = Read-Host "Press enter to exit"
 }
