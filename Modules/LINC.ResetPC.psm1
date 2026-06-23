@@ -54,11 +54,11 @@ function Reset-PC {
             Write-LincLog -Message "PsExec is installed. Continuing Reset process."
         }
 
+        }        
         $MyScriptBlock = {
         
             $CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name
             Write-LincLog -Message "Running as: $CurrentUser"
-            psexec -accepteula
             try { 
                 $namespaceName = "root\cimv2\mdm\dmmap"
                 $className = "MDM_RemoteWipe"
@@ -77,11 +77,16 @@ function Reset-PC {
             }
         }
 
-        $ScriptBytes = [System.Text.Encoding]::Unicode.GetBytes($MyScriptBlock.ToString())
+        $ScriptBytes = [System.Text.Encoding]::Unicode.GetBytes($MyScriptBlock)
         $EncodedCmd = [Convert]::ToBase64String($ScriptBytes)
-
-        psexec -accepteula
-        psexec -s powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand $EncodedCmd
+        Write-Host "Testing outside script block at the end" -ForegroundColor Green
+        try {
+        $psexecPath = Join-Path "$env:windir\System32" "psexec.exe"
+        & $psexecPath -accepteula -s powershell.exe -NoProfile -NonInteractive -EncodedCommand $EncodedCmd
+        } catch {
+            throw "Reset failed."
+        }
+       
     } else {
         Write-LincLog -Message "Skipping PC reset." -Level Warning
     }
