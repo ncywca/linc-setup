@@ -60,10 +60,7 @@ try {
         -Copyright "© 2026 YWCA Calgary" `
         -Version "0.1.17" `
         -IconFile "icon.ico" `
-        -EmbedFiles @{'%windir%\Temp\Modules\LINC.Common.psm1'=(Join-Path $moduleSource 'LINC.Common.psm1'); '%windir%\Temp\Modules\LINC.Users.psm1'=(Join-Path $moduleSource 'LINC.Users.psm1'); '%windir%\Temp\Modules\LINC.Apps.psm1'=(Join-Path $moduleSource 'LINC.Apps.psm1'); '%windir%\Temp\Modules\LINC.Updates.psm1'=(Join-Path $moduleSource 'LINC.Updates.psm1')}
-
-    Copy-Item -Path (Join-Path $stagingRoot 'Modules') -Destination $packageRoot -Recurse -Force
-    Copy-Item -Path (Join-Path $stagingRoot 'LINC.Setup.psd1') -Destination $packageRoot -Force
+        -EmbedFiles @{'%windir%\Temp\Modules\LINC.Common.psm1'='.\Modules\LINC.Common.psm1'; '%windir%\Temp\Modules\LINC.Users.psm1'='.\Modules\LINC.Users.psm1'; '%windir%\Temp\Modules\LINC.Apps.psm1'='.\Modules\LINC.Apps.psm1'; '%windir%\Temp\Modules\LINC.Updates.psm1'='.\Modules\LINC.Updates.psm1'; '%windir%\Temp\Modules\LINC.RenamePC.psm1'='.\Modules\LINC.RenamePC.psm1'; '%windir%\Temp\Modules\LINC.ResetPC.psm1'='.\Modules\LINC.ResetPC.psm1'}
 
     Write-BuildLog -Message "Build completed: $exePath" -Level Success
 }
