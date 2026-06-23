@@ -29,17 +29,21 @@ try {
     Import-LincModule -Path (Join-Path $ModuleRoot 'LINC.Users.psm1')
     Import-LincModule -Path (Join-Path $ModuleRoot 'LINC.Apps.psm1')
     Import-LincModule -Path (Join-Path $ModuleRoot 'LINC.Updates.psm1')
+    Import-LincModule -Path (Join-Path $ModuleRoot 'LINC.RenamePC.psm1')
+    Import-LincModule -Path (Join-Path $ModuleRoot 'LINC.ResetPC.psm1')
 
     if (-not (Test-LincAdministrator)) {
         throw 'This script must be run as Administrator.'
     }
 
+    Invoke-LincStep -StepName 'Reset PC' -ScriptBlock { Reset-PC }
     Invoke-LincStep -StepName 'User creation' -ScriptBlock { New-LincStudentUser }
     Invoke-LincStep -StepName 'Custom app installation' -ScriptBlock {
         Install-LincGoogleChrome
         Install-LincZoom
     }
     Invoke-LincStep -StepName 'Windows update' -ScriptBlock { Install-LincWindowsUpdate }
+    Invoke-LincStep -StepName 'Rename PC' -ScriptBlock { Rename-LincPC }
 }
 catch {
     Write-LincLog -Message "Setup failed: $($_.Exception.Message)" -Level Error
