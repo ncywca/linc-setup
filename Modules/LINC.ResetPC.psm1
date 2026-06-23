@@ -1,6 +1,5 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-
 function Install-PSTools {
     # 1. Define paths
     $zipUrl  = "https://download.sysinternals.com/files/PSTools.zip"
@@ -52,13 +51,9 @@ function Reset-PC {
             Install-PSTools
         } else {
             Write-LincLog -Message "PsExec is installed. Continuing Reset process."
-        }
-
         }        
         $MyScriptBlock = {
         
-            $CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name
-            Write-LincLog -Message "Running as: $CurrentUser"
             try { 
                 $namespaceName = "root\cimv2\mdm\dmmap"
                 $className = "MDM_RemoteWipe"
